@@ -1,26 +1,31 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import CommentArea from './CommentArea';
 import SingleBook from './SingleBook'
 import {Container, Col, Form, Row } from 'react-bootstrap'
 
-class BookList extends Component {
-  state = {
+const BookList = (props) => {
+  /* state = {
     searchQuery: '',
     bookSelected: null
-  }
+  } */
+
+  const [searchQuery, setsearchQuery] = useState ("");
+  const [bookSelected, setbookSelected] = useState (null);
 
    
-  sendData = (value) => {
-    this.setState({ bookSelected: value });
+  const sendData = (value) => {
+    /* this.setState({ bookSelected: value }); */
+    setbookSelected(value)
   };
 
-  componentDidUpdate = (prevProps, prevState ) => {
+/*   componentDidUpdate = (prevProps, prevState ) => {
     if (prevState.bookSelected !== this.state.bookSelected)  {
       this.sendData(this.state.bookSelected)
     } 
-  }
+  } */
 
-  render() {
+  useEffect(() => {}, [bookSelected])
+
     return (
       <>
         <Container xs={12} md={8}>
@@ -30,23 +35,23 @@ class BookList extends Component {
               <Form.Control
                 type="text"
                 placeholder="Search here"
-                value={this.state.searchQuery}
-                onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                value={searchQuery}
+                onChange={(e) => setsearchQuery(e.target.value)}
               />
             </Form.Group>
             </Row>
             <Row>
-          {this.props.books
+          {props.books
             .filter((b) =>
-              b.title.toLowerCase().includes(this.state.searchQuery)
+              b.title.toLowerCase().includes(searchQuery)
             )
             .map((b) => (
               <Col xs={12} md={4} key={b.asin}>
                 <SingleBook 
                 book={b}
                 asin={b.asin}
-                parentCallBack={this.sendData}
-                setSelectedBookAsin = {this.state.bookSelected}
+                parentCallBack={sendData}
+                setSelectedBookAsin = {bookSelected}
                  />
               </Col>
             ))}
@@ -54,11 +59,11 @@ class BookList extends Component {
 
           </Container>
           <Container xs={12} md={6}>
-              <CommentArea asin={this.state.bookSelected}></CommentArea>
+              <CommentArea asin={bookSelected}></CommentArea>
         </Container>
       </>
     )
   }
-}
+
 
 export default BookList
