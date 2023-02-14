@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 
 const AddComment = (props) => {
@@ -11,15 +11,24 @@ const AddComment = (props) => {
   }  */
 
 
-  const [comment, setComment] = useState ("");
-  const [rate, setRate] = useState (1)
-  const [elementId, setElementId] = useState (props.asin)
+  const [comment, setComment] = useState ({
+    comment: "",
+    rate: 1,
+    elementId: props.asin,
+  });
+
+
+  useEffect(()=> {
+    setComment({...comment, elementId: props.asin});
+  }, [props.asin]);
+  /*   const [rate, setRate] = useState (1)
+  const [elementId, setElementId] = useState (props.asin) */
 
 
 
 
     const sendComment = async (e) => {
-    e.preventDefault()
+      e.preventDefault();
     try {
       let response = await fetch(
         'https://striveschool-api.herokuapp.com/api/comments',
@@ -28,12 +37,20 @@ const AddComment = (props) => {
           body: JSON.stringify(comment),
           headers: {
             'Content-type': 'application/json',
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2ViOWEyOWIyODU2YjAwMTMyYTcyMjkiLCJpYXQiOjE2NzYzODQ4MDksImV4cCI6MTY3NzU5NDQwOX0.3j3GnozNngvYZmqogNIc4KYtK5KMADyDmBJrdvRd028",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U0ZmQyNmEyNDc4ZDAwMTNhMDU4MGYiLCJpYXQiOjE2NzYzODg3MTAsImV4cCI6MTY3NzU5ODMxMH0.V__mWAWP11vX-woR8M_OvjNBskf9f2R9ejiiZ3DFFkM",
           },
         }
       )
       if (response.ok) {
-        alert('Comment was sent!')
+        alert('Comment was sent!');
+        setComment ({
+          ...comment,
+          comment:"",
+          rate:1,
+          elementId: props.asin,
+        })
+
+
         /* this.setState({
           comment: {
             comment: '',
@@ -41,10 +58,6 @@ const AddComment = (props) => {
             elementId: this.props.asin,
           },
         }) */
-
-        setComment("");
-        setRate(1);
-        setElementId(props.asin)
       } else {
         console.log('error')
         alert('something went wrong')
@@ -54,6 +67,9 @@ const AddComment = (props) => {
     }
   }
 
+
+
+
     return (
       <div className="my-3">
         <Form onSubmit={sendComment}>
@@ -62,15 +78,20 @@ const AddComment = (props) => {
             <Form.Control
               type="text"
               placeholder="Add comment here"
-              value={comment}
+              value={comment.comment}
               onChange={(e) =>
+
+                setComment({
+                  ...comment,
+                  comment: e.target.value,
+                })
                 /* this.setState({
                   comment: {
                     ...this.state.comment,
                     comment: e.target.value,
                   },
                 }) */
-                setComment(e.target.value)
+                /* setComment(e.target.value) */
               }
             />
           </Form.Group>
@@ -78,15 +99,18 @@ const AddComment = (props) => {
             <Form.Label>Rating</Form.Label>
             <Form.Control
               as="select"
-              value={rate}
+              value={comment.rate}
               onChange={(e) =>
+                setComment({
+                  ...comment,
+                  rate: e.target.value,})
                 /* this.setState({
                   comment: {
                     ...this.state.comment,
                     rate: e.target.value,
                   },
                 }) */
-                setRate(e.target.value)
+                /* setRate(e.target.value) */
               }
             >
               <option>1</option>

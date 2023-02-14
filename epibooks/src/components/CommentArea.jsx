@@ -40,7 +40,7 @@ const CommentArea = (props) => {
           props.asin,
         {
           headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U0ZmQyNmEyNDc4ZDAwMTNhMDU4MGYiLCJpYXQiOjE2NzYzODIyMDIsImV4cCI6MTY3NzU5MTgwMn0.0aybnGOVzPESFupFcACvzL2SEresXCWRbDyQ1F70dFg",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U0ZmQyNmEyNDc4ZDAwMTNhMDU4MGYiLCJpYXQiOjE2NzYzODg3MTAsImV4cCI6MTY3NzU5ODMxMH0.V__mWAWP11vX-woR8M_OvjNBskf9f2R9ejiiZ3DFFkM",
           },
         }
       )
